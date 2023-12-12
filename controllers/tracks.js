@@ -1,12 +1,20 @@
+const { matchedData } = require('express-validator')
 const { tracksModel } = require('../models')
+const { handleHttpError } = require('../utils/handleErros')
 /**
  * 
  * Obtener lista de la base de datos
  */
 
 const getItems = async (req, res) => {
-    const data = await tracksModel.find({})
-    res.send({ data })
+
+    try {
+        const data = await tracksModel.find({})
+        res.send({ data })
+    } catch (e) {
+        handleHttpError(res, "ERROR_GET_ITEMS")
+    }
+
 }
 /**
  * Obtener un detalle
@@ -19,10 +27,16 @@ const getItem = async (req, res) => {
  * Insertar un registro
  */
 const createItem = async (req, res) => {
-    const { body } = req
+    try{
+       
+     const body = matchedData(req)
+        const data = await tracksModel.create(body)
+        res.send({ data })
+    }catch(e){
+        handleHttpError(res, "ERROR_CREATE_ITEMS")
+    }
     
-   const data= await tracksModel.create(body)
-    res.send({ data})
+
 }
 /**
  * Actualizar un registro

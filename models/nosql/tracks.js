@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 const TracksSchema = mongoose.Schema(
     {
         name: {
@@ -49,5 +48,4 @@ const TracksSchema = mongoose.Schema(
         versionKey: false
     }
 );
-
 module.exports = mongoose.model('Tracks', TracksSchema);

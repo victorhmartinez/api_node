@@ -66,6 +66,10 @@ const deleteItem = async (req, res) => {
     try {
         req = matchedData(req)
         const { id } = req;
+        /**
+         * Con el plugin de mongo de delete borrado logico para persistir data
+         */
+        // const data = await tracksModel.delete({_id:id})
         const data = await tracksModel.deleteOne({_id:id})
         res.send({data})
 

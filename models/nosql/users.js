@@ -18,7 +18,8 @@ const UserSchema = mongoose.Schema(
         role: {
             type: String,
             enum: ['user', 'admin'], // Usar 'enum' para limitar los valores permitidos
-            default: 'user'
+            default: 'user',
+            select: false
         }
     },
     {

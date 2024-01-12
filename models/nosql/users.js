@@ -13,13 +13,14 @@ const UserSchema = mongoose.Schema(
             unique: true
         },
         password: {
-            type: String
+            type: String,
+            select: false
         },
         role: {
             type: String,
             enum: ['user', 'admin'], // Usar 'enum' para limitar los valores permitidos
             default: 'user',
-            select: false
+            
         }
     },
     {

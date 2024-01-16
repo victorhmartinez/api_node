@@ -1,13 +1,31 @@
 require('dotenv').config();
-const express= require('express')
-const dbConnect= require('./config/mongo')
-const cors = require('cors')
-const app =express()
+const express= require('express');
+const {dbConnectMySql}= require('./config/mysql');
+const dbConnectNoSQL= require('./config/mongo');
 
-app.use(cors())
-app.use(express.json())
-app.use(express.static('storage'))
-const port = process.env.PORT || 3000
+const cors = require('cors');
+const morganBody= require('morgan-body');
+
+const loggerStream= require('./utils/handleLogger');
+const app =express();
+
+const ENGINE_BD= process.env.ENGINE_BD;
+
+app.use(cors());
+app.use(express.json());
+app.use(express.static('storage'));
+
+
+
+morganBody(app,{
+    naColors:true,
+   
+    stream:loggerStream,
+    skip: function(req,res){
+        return res.statusCode <400 // Si esta en los rangos de los 2xx y 3xx
+    }
+});
+const port = process.env.PORT || 3000;
 
 /**
  * Aqui  invocamos a las rutas
@@ -17,5 +35,5 @@ app.use("/api",require('./routes'))
 
 app.listen(port,()=>{
     console.log(`http://localhost:${port}`);
-})
-dbConnect()
+});
+(ENGINE_BD==='nosql')? dbConnectNoSQL(): dbConnectMySql()

@@ -14,6 +14,7 @@ const registerCtrl = async (req, res) => {
         req = matchedData(req);
         const password = await encrypt(req.password)
         const body = { ...req, password }
+   
         const dataUser = await userModel.create(body)
         dataUser.set('password', undefined, { strict: false })
         const data = {
@@ -23,7 +24,8 @@ const registerCtrl = async (req, res) => {
 
         res.send({ data })
     } catch (e) {
-        handleHttpError(res,"ERROR_REGISTER-USER")
+        handleHttpError(res,"ERROR_REGISTER-USER "+e)
+             console.log(e)
     }
 
 }
@@ -35,7 +37,7 @@ const registerCtrl = async (req, res) => {
 const loginCtrl = async (req, res) => {
 try {
     req=matchedData(req)
-    const user= await userModel.findOne({email:req.email}).select('password name role email')
+    const user= await userModel.findOne({email:req.email})
     if(!user){
         handleHttpError(res,"ERROR_NOT_EXISTS",404)
         return;

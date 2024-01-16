@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const dbConnect = () => {
+const dbConnectNoSQL = () => {
     const DB_URI = process.env.DB_URI
     mongoose.connect(DB_URI, {
         useNewUrlParser: true,
@@ -15,4 +15,4 @@ const dbConnect = () => {
         console.log('¡CONEXIÓN CORRECTA!');
     });
 };
-module.exports = dbConnect
+module.exports = dbConnectNoSQL

@@ -43,7 +43,7 @@ const validaorGetItem = [
    check("id")
         .exists()
         .notEmpty()
-        .isMongoId(),
+        ,
 
     (req,res,next)=>{
         return validateResults(req,res,next)

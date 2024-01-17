@@ -48,4 +48,50 @@ const TracksSchema = mongoose.Schema(
         versionKey: false
     }
 );
+/**
+ * Implementar metodo propio con relacion a storage
+ 
+ * @returns 
+ */
+TracksSchema.statics.findAllData= function(){
+    const joinData= this.aggregate([
+        {
+            $lookup:{
+                from: "storages", //Tracks--> storages
+                localField:"mediaId",// Tracks.mediaId
+                foreignField:"_id",//Storages._id
+                as:"audio" // Lo va colocar en un alias
+            }
+        },{
+            $unwind:"$audio"
+        }
+    ])
+    return joinData
+};
+/**
+ * Solo una realcion
+ * @param {*} id 
+ * @returns 
+ */
+TracksSchema.statics.findOneData= function(id){
+    const joinData= this.aggregate([
+        {
+            $match:{
+                _id: new mongoose.Types.ObjectId(id)
+            }
+        },
+        {
+            $lookup:{
+                from: "storages", //Tracks--> storages
+                localField:"mediaId",// Tracks.mediaId
+                foreignField:"_id",//Storages._id
+                as:"audio" // Lo va colocar en un alias
+            }
+        },{
+            $unwind:"$audio"
+        },
+      
+    ])
+    return joinData
+};
 module.exports = mongoose.model('Tracks', TracksSchema);

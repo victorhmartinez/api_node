@@ -8,7 +8,8 @@ const checkRol = require('../middleware/rol');
 /**
  * Listar los items
  */
-router.get("/", authMiddleware,getItems);
+router.get("/",getItems);
+//router.get("/", authMiddleware,getItems);
 /**
  * Obtener un detalle de un Item
  */
@@ -16,7 +17,8 @@ router.get("/:id",validaorGetItem, getItem);
 /**
  * Crear un items
  */
-router.post("/",validaorCreateItem, authMiddleware,checkRol(["admin"]),createItem)
+router.post("/",validaorCreateItem, createItem)
+//router.post("/",validaorCreateItem, authMiddleware,checkRol(["admin"]),createItem)
 /**
  * Actulizar un detalle de un Item
  */

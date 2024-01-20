@@ -17,6 +17,12 @@ const swaggerDefinition = {
 
     ],
     components: {
+        securitySchemes: {
+            bearerAuth: {
+                type: "http",
+                scheme: "bearer"
+            }
+        },
         schemas: {
             authLogin: {
                 type: "object",
